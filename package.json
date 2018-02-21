@@ -1,11 +1,17 @@
 {
-  "name": "vimes",
-  "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
   "repository": "git@github.com:DogPawHat/vimes.git",
   "author": "Ciarán Curley <ciaran.curley.11.11@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "lerna exec --scope @vimes/frontend yarn start",
+    "deploy": "lerna exec --scope @vimes/backend sls deploy"
+  },
   "devDependencies": {
-    "lerna": "^2.9.0"
-  }
+    "lerna": "^2.9.0",
+    "typescript": "^2.7.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

@@ -1,14 +1,20 @@
 import * as React from 'react';
 import { Query, QueryResult } from 'react-apollo';
-import { getUser, getUserVariables } from './queries/__generated__/getUser';
-import GET_USER_QUERY from './queries/getUser';
+
+import {
+  getUser,
+  getUserVariables
+} from '@vimes/graphql/src/queries/__generated__/getUser';
+import GET_USER_QUERY from '@vimes/graphql/src/queries/getUser';
 
 import User from './components/User';
 import './App.css';
 
+console.log(GET_USER_QUERY);
+
 const logo = require('./logo.svg');
 
-const varables: getUserVariables = {
+const variables: getUserVariables = {
   id: 1
 };
 
@@ -40,7 +46,7 @@ class App extends React.Component {
         </header>
         <Query 
             query={GET_USER_QUERY} 
-            variables={varables} 
+            variables={variables} 
             children={renderUser}
         />
         <p className="App-intro">

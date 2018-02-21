@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`
+const query = gql`
   query getUser($id: Int!) {
     user(id: $id) {
       firstName
@@ -8,3 +8,7 @@ export default gql`
     }
   }
 `;
+
+console.log(query);
+
+export default query;

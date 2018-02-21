@@ -1,5 +1,6 @@
 {
-  "name": "aws-nodejs-typescript",
+  "name": "@vimes/backend",
+  "private": true,
   "version": "1.0.0",
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
@@ -9,6 +10,7 @@
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
     "@types/node": "^8.0.57",
+    "@vimes/graphql": "^1.0.0",
     "serverless-webpack": "^4.0.0",
     "ts-loader": "^2.3.7",
     "typescript": "^2.5.2",
