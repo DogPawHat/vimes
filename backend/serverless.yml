@@ -25,6 +25,7 @@ functions:
       - http:
           method: get
           path: graphql
+          cors: true
       - http:
           method: post
           path: graphql

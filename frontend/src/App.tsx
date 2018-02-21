@@ -1,9 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import { Query, QueryResult } from 'react-apollo';
-import { getUser, getUserVariables } from 
-  '../../graphql/queries/__generated__/getUser';
+import { getUser, getUserVariables } from './queries/__generated__/getUser';
+import GET_USER_QUERY from './queries/getUser';
+
 import User from './components/User';
-import GET_USER_QUERY from '../../graphql/queries/getUser.graphql';
 import './App.css';
 
 const logo = require('./logo.svg');
@@ -14,11 +14,13 @@ const varables: getUserVariables = {
 
 const renderUser = (result: QueryResult<getUser, getUserVariables>) => {
   const { data, loading, error } = result;
+
+  if (loading) { return (<h1>Loading...</h1>); }
+
+  if (error) { return (<h1>{error.message}</h1>); }
   
   const fullName = (
     (
-      !(loading) && 
-      !(error) &&
       !!(data) &&
       !!(data.user)
     ) ? 
@@ -35,12 +37,12 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <Query 
+        </header>
+        <Query 
             query={GET_USER_QUERY} 
             variables={varables} 
             children={renderUser}
-          />
-        </header>
+        />
         <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>

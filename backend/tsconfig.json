@@ -6,6 +6,6 @@
       "esnext.asynciterable"
     ],
     "strict": true,
-    "esModuleInterop": true
+    "noImplicitAny": false
   }
 }

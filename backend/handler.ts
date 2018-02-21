@@ -1,6 +1,10 @@
 import { 
   APIGatewayEvent,
-  ProxyHandler, 
+  ProxyHandler,
+  ProxyCallback,
+  Callback,
+  ProxyResult,
+  Handler, 
 } from 'aws-lambda';
 import { graphqlLambda, graphiqlLambda } from 'apollo-server-lambda';
 import exeSchema from './src/exeSchema';
@@ -23,7 +27,23 @@ export const hello: ProxyHandler = (event, context, cb) => {
   }
 }
 
-export const graphql = graphqlLambda({ schema: exeSchema });
+export const graphql: Handler = (event, context, cb) => { 
+
+  const callbackFilter: Callback = (error, output) => {
+    if(
+      output != undefined && 
+      typeof output === 'object' &&
+      output.hasOwnProperty('headers') &&
+      cb != undefined
+    ) {
+      output['headers']['Access-Control-Allow-Origin'] = '*';
+      cb(error, output);
+    }
+  };
+  const handler = graphqlLambda({ schema: exeSchema });
+
+  return handler(event, context, callbackFilter);
+};
 
 export const graphiql = graphiqlLambda({
   endpointURL: '/dev/graphql',

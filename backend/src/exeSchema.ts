@@ -1,7 +1,7 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import resolvers from './resolvers';
 
-const typeDefs = require('../../graphql/schema.gql')
+const typeDefs = require('./schema.graphql')
 
 export default makeExecutableSchema({
   typeDefs,
