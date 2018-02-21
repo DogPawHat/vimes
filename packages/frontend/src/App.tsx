@@ -4,8 +4,8 @@ import { Query, QueryResult } from 'react-apollo';
 import {
   getUser,
   getUserVariables
-} from '@vimes/graphql/src/queries/__generated__/getUser';
-import GET_USER_QUERY from '@vimes/graphql/src/queries/getUser';
+} from '@vimes/graphql/dist/queries/__generated__/getUser';
+import GET_USER_QUERY from '@vimes/graphql/dist/queries/getUser';
 
 import User from './components/User';
 import './App.css';

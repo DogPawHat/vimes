@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./packages",
     "paths": {
-      "@vimes/graphql": ["./graphql/src"]
+      "@vimes/graphql": ["./graphql"]
     },
     "strict": true,
     "esModuleInterop": true
