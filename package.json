@@ -1,0 +1,8 @@
+{
+  "name": "vimes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:DogPawHat/vimes.git",
+  "author": "Ciarán Curley <ciaran.curley.11.11@gmail.com>",
+  "license": "MIT"
+}

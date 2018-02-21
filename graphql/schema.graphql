@@ -1,0 +1,21 @@
+type Post {
+  id: Int!
+  author: User
+  title: String
+}
+
+type User {
+  id: Int!
+  firstName: String
+  lastName: String
+  posts: [Post]
+}
+
+type Query {
+  user(id: Int!): User
+  posts: [Post]
+}
+
+schema {
+  query: Query
+}

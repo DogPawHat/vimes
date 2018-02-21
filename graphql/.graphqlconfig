@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "vimes-graphql": {
+      "schemaPath": "schema.graphql"
+    }
+  }
+}
