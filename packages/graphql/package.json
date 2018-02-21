@@ -1,5 +1,9 @@
 {
   "name": "@vimes/graphql",
+  "scripts": {
+    "build": "tsc",
+    "install": "yarn build"
+  },
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
