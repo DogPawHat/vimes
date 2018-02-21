@@ -2,7 +2,7 @@ const path = require('path');
 const slsw = require('serverless-webpack');
 
 module.exports = {
-  entry: slsw.lib.entries,
+  entry: './handler.ts',
   devtool: 'source-map',
   resolve: {
     extensions: [
@@ -26,7 +26,11 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'graphql-tag/loader',
       },
-      { test: /\.ts(x?)$/, loader: 'ts-loader' },
+      { test: /\.ts(x?)$/,
+        
+        exclude: [/node_modules/, /node_modules\/@types\/react/],
+        loader: 'ts-loader'
+      }
     ],
   },
 };

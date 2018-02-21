@@ -4,7 +4,6 @@
     "paths": {
       "@vimes/graphql": ["./graphql"]
     },
-    "strict": true,
     "esModuleInterop": true
   }
 }
