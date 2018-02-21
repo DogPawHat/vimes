@@ -2,7 +2,8 @@
   "name": "@vimes/graphql",
   "scripts": {
     "build": "tsc",
-    "install": "yarn build"
+    "install": "yarn codegen && yarn build",
+    "codegen": "apollo-codegen generate src/**.ts --target typescript-modern --add-typename"
   },
   "version": "1.0.0",
   "main": "dist/index.js",
