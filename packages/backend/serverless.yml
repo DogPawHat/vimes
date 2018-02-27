@@ -4,6 +4,7 @@ service:
 # Add the serverless-webpack plugin
 plugins:
   - serverless-webpack
+  - serverless-offline
 
 provider:
   name: aws
@@ -13,6 +14,8 @@ provider:
   profile: personal-aws
 
 functions:
+  auth:
+    handler: auth.authorize
   hello:
     handler: handler.hello
     events:
@@ -21,6 +24,7 @@ functions:
           path: hello
   graphql:
     handler: handler.graphql
+    authorizer: auth
     events:
       - http:
           method: get

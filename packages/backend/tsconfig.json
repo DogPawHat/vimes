@@ -8,8 +8,5 @@
     ],
     "strict": true,
     "noImplicitAny": false
-  },
-  "exclude": [
-    "**/@types/react/**/*.d.ts"
-  ]
+  }
 }

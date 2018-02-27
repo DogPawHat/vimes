@@ -1,28 +1,22 @@
 import * as React from 'react';
 import { Query, QueryResult } from 'react-apollo';
-import Auth from './services/auth';
-import { Route, Switch } from 'react-router-dom';
-import { mapPropsStream } from 'recompose';
+import Auth from '../services/auth';
 
 import {
   Container,
   Header
 } from 'semantic-ui-react';
 
-import GET_USER from './queries/getUser';
+import GET_USER from '../queries/getUser';
 
 import {
   getUser,
   getUserVariables
-} from './queries/__generated__/getUser';
+} from '../queries/__generated__/getUser';
 
-import Home from './pages/Home';
-import Callback from './pages/Callback';
+import User from '../components/User';
 
-import User from './components/User';
-import './App.css';
-
-const logo = require('./logo.svg');
+const logo = require('../logo.svg');
 
 const variables: getUserVariables = {
   id: 1
@@ -47,16 +41,20 @@ const renderUser = (result: QueryResult<getUser, getUserVariables>) => {
   return (<User fullName={fullName} />);
 };
 
-const App: React.SFC<{}> = () => {
-  const auth = new Auth();
-  auth.login();
+const Home: React.SFC<{}> = () => (
+    <Container>
+    <Header>
+      <img src={logo} className="App-logo" alt="logo" />
+    </Header>
+    <Query
+      query={GET_USER}
+      variables={variables}
+      children={renderUser}
+    />
+    <p className="App-intro">
+      To get started, edit <code>src/App.tsx</code> and save to reload.
+    </p>
+  </Container>
+);
 
-  return (
-    <Switch >
-      <Route path="/callback" component={Callback} />
-      <Route exact={true} path="/" component={Home} />
-    </Switch>
-  );
-};
-
-export default App;
+export default Home;

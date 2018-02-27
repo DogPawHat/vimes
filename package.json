@@ -4,14 +4,11 @@
   "author": "Ciarán Curley <ciaran.curley.11.11@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "lerna exec --scope @vimes/frontend yarn start",
-    "deploy": "lerna exec --scope @vimes/backend sls deploy"
+    "install-all": "concurrently \"cd packages/frontend && yarn install\" \"cd packages/backend && yarn install\"",
+    "start": "cd packages/frontend && yarn start",
+    "deploy": "cd packages/backend && sls deploy"
   },
   "devDependencies": {
-    "lerna": "^2.9.0",
-    "typescript": "^2.7.2"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+    "concurrently": "^3.5.1"
+  }
 }

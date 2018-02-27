@@ -5,12 +5,15 @@
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "sls deploy"
   },
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
+    "@types/graphql": "^0.12.4",
     "@types/node": "^8.0.57",
-    "@vimes/graphql": "^1.0.0",
+    "graphql": "0.13.0",
+    "graphql-tag": "^2.8.0",
+    "serverless-offline": "^3.18.0",
     "serverless-webpack": "^4.0.0",
     "ts-loader": "^2.3.7",
     "typescript": "^2.7.2",

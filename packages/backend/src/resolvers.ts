@@ -1,6 +1,8 @@
 import { find, filter } from 'ramda';
 
-import { IResolverObject, IResolvers, IFieldResolver } from 'graphql-tools/dist/Interfaces';
+import {
+  IResolverObject, IResolvers, IFieldResolver
+} from 'graphql-tools/dist/Interfaces';
 
 const authors = [
   { id: 1, firstName: 'Tom', lastName: 'Coleman' },

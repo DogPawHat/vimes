@@ -1,7 +1,7 @@
-import { makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema }from 'graphql-tools';
 import resolvers from './resolvers';
 
-const typeDefs = require('@vimes/graphql/schema/schema.graphql')
+const typeDefs = require('./schema.graphql')
 
 export default makeExecutableSchema({
   typeDefs,

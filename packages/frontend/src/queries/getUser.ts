@@ -9,6 +9,4 @@ const query = gql`
   }
 `;
 
-console.log(query);
-
 export default query;
