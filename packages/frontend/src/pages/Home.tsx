@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Query, QueryResult } from 'react-apollo';
-import Auth from '../services/auth';
 
 import {
   Container,
-  Header
+  Header,
+  Button
 } from 'semantic-ui-react';
 
 import GET_USER from '../queries/getUser';
@@ -41,16 +41,32 @@ const renderUser = (result: QueryResult<getUser, getUserVariables>) => {
   return (<User fullName={fullName} />);
 };
 
-const Home: React.SFC<{}> = () => (
-    <Container>
+const Home: React.SFC<{
+  login: () => void;
+  logout: () => void;
+  isAuthenticated: boolean;
+}> = ({login, logout, isAuthenticated}) => (
+  <Container>
     <Header>
       <img src={logo} className="App-logo" alt="logo" />
     </Header>
-    <Query
-      query={GET_USER}
-      variables={variables}
-      children={renderUser}
-    />
+    {
+      !isAuthenticated ?
+      (
+        <Button onClick={login}>Login</Button>
+      ) :
+      (
+        <>
+        <Query
+          query={GET_USER}
+          variables={variables}
+          children={renderUser}
+        />
+        <Button onClick={logout}>Logout</Button>
+        </>
+      )
+    }
+
     <p className="App-intro">
       To get started, edit <code>src/App.tsx</code> and save to reload.
     </p>
