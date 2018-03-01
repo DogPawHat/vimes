@@ -15,7 +15,7 @@ provider:
 
 functions:
   auth:
-    handler: auth.authorize
+    handler: handler.auth
   hello:
     handler: handler.hello
     events:

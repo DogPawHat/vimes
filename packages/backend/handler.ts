@@ -1,13 +1,22 @@
+require('dotenv').config({ silent: true });
+
 import { 
   APIGatewayEvent,
   ProxyHandler,
   ProxyCallback,
   Callback,
   ProxyResult,
-  Handler, 
+  Handler,
+  CustomAuthorizerHandler
 } from 'aws-lambda';
 import { graphqlLambda, graphiqlLambda } from 'apollo-server-lambda';
-import exeSchema from './src/exeSchema';
+import {
+} from 'auth0-js';
+
+import exeSchema from './src/api';
+import checkJwt from './src/auth/checkJwt';
+import getPolicyDoc from './src/auth/getPolicyDoc';
+import getToken from './src/auth/getToken'
 
 export const hello: ProxyHandler = (event, context, cb) => {
   try {
@@ -27,20 +36,52 @@ export const hello: ProxyHandler = (event, context, cb) => {
   }
 }
 
+export const auth: CustomAuthorizerHandler = (event, context, cb) => {
+    if(cb == undefined) {
+      throw new Error('Event needs callback')
+    }
+
+    const token = getToken(event);
+
+    checkJwt(token)
+      .then(value => {
+        cb(null, {
+          principalId: value['sub'],
+          policyDocument: getPolicyDoc('Allow', event.methodArn),
+          context: {
+            scope: value['scope'],
+          }
+        }
+      )
+    })
+    .catch(reason => {
+      cb(reason);
+    })
+  };
+
 export const graphql: Handler = (event, context, cb) => { 
+  if(cb == undefined) {
+    throw new Error('Event needs callback')
+  }
+  if (!(event.headers)) {
+    throw new Error('Event needs headers')
+  }
 
   const callbackFilter: Callback = (error, output) => {
-    if(
-      output != undefined && 
-      typeof output === 'object' &&
-      output.hasOwnProperty('headers') &&
-      cb != undefined
+    if (
+      (output != undefined) && 
+      (typeof output === 'object') &&
+      !!(output['headers'])
     ) {
       output['headers']['Access-Control-Allow-Origin'] = '*';
       cb(error, output);
+    } else {
+      throw new Error('Event needs headers')
     }
   };
-  const handler = graphqlLambda({ schema: exeSchema });
+  const handler = graphqlLambda({ 
+    schema: exeSchema
+  });
 
   return handler(event, context, callbackFilter);
 };
