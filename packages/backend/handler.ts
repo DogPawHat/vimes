@@ -1,4 +1,5 @@
 require('dotenv').config({ silent: true });
+require('isomorphic-fetch');
 
 import { 
   APIGatewayEvent,
@@ -16,6 +17,7 @@ import {
 import exeSchema from './src/api';
 import checkJwt from './src/auth/checkJwt';
 import getPolicyDoc from './src/auth/getPolicyDoc';
+import getAuth0Viewer from './src/auth/getAuth0Viewer';
 import getToken from './src/auth/getToken'
 
 export const hello: ProxyHandler = (event, context, cb) => {
@@ -44,12 +46,14 @@ export const auth: CustomAuthorizerHandler = (event, context, cb) => {
     const token = getToken(event);
 
     checkJwt(token)
-      .then(value => {
+      .then(async value => {
+        const user = await getAuth0Viewer(token);
         cb(null, {
-          principalId: value['sub'],
+          principalId: user['sub'],
           policyDocument: getPolicyDoc('Allow', event.methodArn),
           context: {
             scope: value['scope'],
+            user: user
           }
         }
       )

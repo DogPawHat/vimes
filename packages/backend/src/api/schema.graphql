@@ -5,7 +5,7 @@ type Post {
 }
 
 type User {
-  id: Int!
+  id: String!
   firstName: String
   lastName: String
   posts: [Post]

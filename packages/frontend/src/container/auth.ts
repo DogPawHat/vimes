@@ -32,9 +32,9 @@ const myAuth0 = new auth0.WebAuth({
   domain: 'dph-test-auth.eu.auth0.com',
   clientID: 'X1i2SaHPcSDDdNhwarlhFjRFWnq5WRTZ',
   redirectUri: 'http://localhost:3000/callback',
-  audience: 'https://dph-test-auth.eu.auth0.com/userinfo',
+  audience: 'https://opavthxygd.execute-api.eu-west-1.amazonaws.com/dev/graphql',
   responseType: 'token id_token',
-  scope: 'openid'
+  scope: 'openid profile read:all'
 });
 
 const mapStateToProps = (state: RootState) => ({
