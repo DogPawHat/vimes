@@ -7,6 +7,7 @@ import { FluxStandardAction } from 'flux-standard-action';
 export interface AuthProps {
   [stateTypes.ACCESS_TOKEN]: string;
   [stateTypes.ID_TOKEN]: string;
+  [stateTypes.USER_ID]: string;
   [stateTypes.EXPIRES_AT]: string;
 }
 

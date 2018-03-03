@@ -18,10 +18,6 @@ import User from '../components/User';
 
 const logo = require('../logo.svg');
 
-const variables: getUserVariables = {
-  id: 1
-};
-
 const renderUser = (result: QueryResult<getUser, getUserVariables>) => {
   const { data, loading, error } = result;
 
@@ -45,7 +41,8 @@ const Home: React.SFC<{
   login: () => void;
   logout: () => void;
   isAuthenticated: boolean;
-}> = ({login, logout, isAuthenticated}) => (
+  userId: string;
+}> = ({login, logout, isAuthenticated, userId}) => (
   <Container>
     <Header>
       <img src={logo} className="App-logo" alt="logo" />
@@ -59,7 +56,7 @@ const Home: React.SFC<{
         <>
         <Query
           query={GET_USER}
-          variables={variables}
+          variables={{id: userId}}
           children={renderUser}
         />
         <Button onClick={logout}>Logout</Button>

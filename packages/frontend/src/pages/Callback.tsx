@@ -2,8 +2,7 @@
 import * as React from 'react';
 
 const Callback: React.SFC<{
-  handleAuthentication: () => void;
-  isAuthenticated: boolean
+  handleAuthentication: () => void
 }> = props => {
   props.handleAuthentication();
   return (

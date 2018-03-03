@@ -1,5 +1,5 @@
+import jwks from 'jwks-rsa';
 import { verify, decode } from 'jsonwebtoken';
-import { JwksClient} from 'jwks-rsa';
 import { promisify } from 'bluebird';
 
 const checkJwt = async (token: string) => {
@@ -11,7 +11,7 @@ const checkJwt = async (token: string) => {
         throw new Error('Please define JWKS_URI');
     };
 
-    const client = new JwksClient({
+    const client: jwks.JwksClient = jwks({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 10,

@@ -1,4 +1,3 @@
-require('dotenv').config({ silent: true });
 require('isomorphic-fetch');
 
 import { 
@@ -57,10 +56,7 @@ export const auth: CustomAuthorizerHandler = (event, context, cb) => {
           principalId: value['sub'],
           policyDocument: getPolicyDoc('Allow', event.methodArn),
           context: {
-            viewer: {
-              scope: value['scope'],
-              ...user
-            }
+            scope: value['scope']
           }
         }
       )
@@ -69,36 +65,44 @@ export const auth: CustomAuthorizerHandler = (event, context, cb) => {
       cb(reason);
     })
   };
-
+  
 export const graphql: Handler = (event, context, cb) => { 
-  if(cb == undefined) {
-    throw new Error('Event needs callback')
-  }
-  if (!(event.headers)) {
-    throw new Error('Event needs headers')
-  }
+
 
   const callbackFilter: Callback = (error, output) => {
+    if (error != null) {
+      throw error;
+    };
+
+    if (cb == undefined) {
+      throw new Error('Event needs callback')
+    };
+
     if (
-      (output != undefined) && 
-      (typeof output === 'object') &&
-      !!(output['headers'])
+      (output == undefined) && 
+      (typeof output !== 'object')
     ) {
-      output['headers']['Access-Control-Allow-Origin'] = '*';
-      cb(error, output);
-    } else {
-      throw new Error('Event needs headers')
+      throw new Error('Output not what was expected')
+    };
+
+    console.log(output['statusCode']);
+    console.log(output['headers']);
+    console.log(output['body']);
+    if(event.headers.origin === 'http://localhost:3000') {
+      output['headers']['Access-Control-Allow-Origin'] = 'http://localhost:3000';
+      output['headers']['Access-Control-Allow-Credentials'] = 'true';
     }
+    cb(error, output);
   };
 
   const handler = graphqlLambda((event, context) => {
-
-
+    console.log(event.requestContext.authorizer);
     return {
       schema: exeSchema,
       context: {
         viewer: {
-          ...event.requestContext.authorizer.viewer
+          user_id: event.requestContext.authorizer.principalId,
+          scope: event.requestContext.authorizer.scope
         }
       }
     }

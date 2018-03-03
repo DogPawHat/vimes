@@ -8,7 +8,8 @@ import { isAuthAction } from './actions';
 const defaultState: AuthState = {
     [stateTypes.ACCESS_TOKEN]: '',
     [stateTypes.EXPIRES_AT]: '',
-    [stateTypes.ID_TOKEN]: ''
+    [stateTypes.ID_TOKEN]: '',
+    [stateTypes.USER_ID]: ''
 };
 
 const reducer: Reducer<AuthState> = (state = defaultState, action) => {
@@ -22,7 +23,8 @@ const reducer: Reducer<AuthState> = (state = defaultState, action) => {
                 return merge(state, {
                     [stateTypes.ACCESS_TOKEN]: '',
                     [stateTypes.EXPIRES_AT]: '',
-                    [stateTypes.ID_TOKEN]: ''
+                    [stateTypes.ID_TOKEN]: '',
+                    [stateTypes.USER_ID]: ''
                 });
             default:
                 return state;

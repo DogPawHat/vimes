@@ -24,15 +24,18 @@ functions:
           path: hello
   graphql:
     handler: handler.graphql
-    authorizer: auth
+    
     events:
       - http:
           method: get
           path: graphql
           cors: true
+          authorizer: auth
       - http:
           method: post
           path: graphql
+          cors: true
+          authorizer: auth
   graphiql:
     handler: handler.graphiql
     events:

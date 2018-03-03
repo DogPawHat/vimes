@@ -6,10 +6,12 @@ import { connect } from 'react-redux';
 import { state as RootState } from '../redux/modules/root';
 import { selectors } from '../redux/modules/auth';
 import { Dispatch } from 'redux';
+import { decode } from 'jsonwebtoken';
 
 const ACCESS_TOKEN = 'access_token';
 const ID_TOKEN = 'id_token';
 const EXPIRES_AT = 'expires_at';
+const USER_ID = 'user_id';
 
 interface VerifiedAuthResult extends auth0.Auth0DecodedHash {
   accessToken: string;
@@ -38,7 +40,8 @@ const myAuth0 = new auth0.WebAuth({
 });
 
 const mapStateToProps = (state: RootState) => ({
-  isAuthenticated: selectors.isAuthenticated(state)
+  isAuthenticated: selectors.isAuthenticated(state),
+  userId: state.auth.user_id
 });
 
 const mapDispatchToPropsHome = (dispatch: Dispatch<RootState>) => {
@@ -62,10 +65,24 @@ const mapDispatchToPropsCallback = (dispatch: Dispatch<RootState>) => {
     const expiresAt = JSON.stringify(
       (authResult.expiresIn * 1000) + new Date().getTime()
     );
+
+    const decoded = decode(authResult.idToken);
+
+    if (decoded === null) {
+      throw new Error('Problem decoding JWT');
+    }
+
+    if (typeof decoded === 'string') {
+      throw new Error(decoded);
+    }
+
+    const userId: string = decoded['sub'];
+
     return dispatch(
       actions.createSetSessionAction({
         [ACCESS_TOKEN]: authResult.accessToken,
         [ID_TOKEN]: authResult.idToken,
+        [USER_ID]: userId,
         [EXPIRES_AT]: expiresAt
       })
     );

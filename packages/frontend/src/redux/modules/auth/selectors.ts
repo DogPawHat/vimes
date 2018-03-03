@@ -15,7 +15,9 @@ export const isAuthenticated = createSelector(
            state.auth.expires_at
         );
 
-        return new Date().getTime() < expiresAt;
+        const now = new Date().getTime();
+
+        return now < expiresAt;
     },
     authenticated => authenticated
 );

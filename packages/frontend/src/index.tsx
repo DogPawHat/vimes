@@ -40,13 +40,13 @@ const httpLink = createHttpLink({
   uri: 'https://opavthxygd.execute-api.eu-west-1.amazonaws.com/dev/graphql'
 });
 
-const authLink =  setContext((_, { headers }) => {
+const authLink = setContext((_, { headers }) => {
   const token = selectors.auth.getToken(store.getState());
 
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      'Authorization': token ? `Bearer ${token}` : '',
     }
   };
 });
