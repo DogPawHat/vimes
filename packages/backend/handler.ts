@@ -10,10 +10,15 @@ import {
   Handler,
   CustomAuthorizerHandler
 } from 'aws-lambda';
-import { graphqlLambda, graphiqlLambda } from 'apollo-server-lambda';
+import {
+  graphqlLambda,
+  graphiqlLambda,
+  LambdaGraphQLOptionsFunction
+} from 'apollo-server-lambda';
 import {
 } from 'auth0-js';
 
+import { decode } from 'jsonwebtoken';
 import exeSchema from './src/api';
 import checkJwt from './src/auth/checkJwt';
 import getPolicyDoc from './src/auth/getPolicyDoc';
@@ -49,11 +54,13 @@ export const auth: CustomAuthorizerHandler = (event, context, cb) => {
       .then(async value => {
         const user = await getAuth0Viewer(token);
         cb(null, {
-          principalId: user['sub'],
+          principalId: value['sub'],
           policyDocument: getPolicyDoc('Allow', event.methodArn),
           context: {
-            scope: value['scope'],
-            user: user
+            viewer: {
+              scope: value['scope'],
+              ...user
+            }
           }
         }
       )
@@ -83,9 +90,22 @@ export const graphql: Handler = (event, context, cb) => {
       throw new Error('Event needs headers')
     }
   };
-  const handler = graphqlLambda({ 
-    schema: exeSchema
+
+  const handler = graphqlLambda((event, context) => {
+
+
+    return {
+      schema: exeSchema,
+      context: {
+        viewer: {
+          ...event.requestContext.authorizer.viewer
+        }
+      }
+    }
   });
+
+
+
 
   return handler(event, context, callbackFilter);
 };
